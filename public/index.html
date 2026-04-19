@@ -79,7 +79,6 @@
 
           const td = document.createElement("td");
 
-          // Base aesthetic classes - added 'relative group' for tooltip positioning
           const baseClasses =
             "w-32 h-32 rounded-2xl text-center align-middle text-2xl font-bold transition-all duration-300 select-none relative group";
 
@@ -101,22 +100,21 @@
           td.addEventListener("click", async function (e) {
             const currentTd = e.currentTarget;
             if (currentTd.classList.contains("cursor-not-allowed")) {
-              return; // Seat is already taken
+              return;
             }
 
             try {
-              const id = j[i].id; // Safe from loop closure
+              const id = j[i].id;
               const name = prompt("Enter your name");
               if (!name) return;
 
-              const res = await fetch(`/${id}/${name}`, { method: "PUT" });
-              const data = await res.json();
+              const response = await fetch(`/${id}/${name}`, { method: "PUT" });
+              const data = await response.json();
 
               if (data.error) {
                 alert("FAILED! Couldn't book! already booked.");
               } else {
                 alert("Booked successfully!");
-                // Visually transition to booked state upon success
                 currentTd.className = `${baseClasses} bg-rose-500/10 text-rose-500/60 border border-rose-500/20 cursor-not-allowed`;
                 currentTd.innerHTML = `
                             <span class="relative z-10">${id}</span>
